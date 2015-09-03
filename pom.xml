@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.buddycloud.mediaserver</groupId>
 	<artifactId>buddycloud-media-server</artifactId>
-	<version>1.0</version>
+	<version>0.3.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>buddycloud-media-server</name>
 	<profiles>
@@ -46,12 +46,12 @@
 			<artifactId>easymock</artifactId>
 			<version>3.2</version>
 		</dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>1.9.0</version>
-            <scope>test</scope>
-        </dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.9.0</version>
+			<scope>test</scope>
+		</dependency>
 		<!-- Java Servlet -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -160,8 +160,6 @@
 			<artifactId>tinder</artifactId>
 			<version>1.2.3</version>
 		</dependency>
-		<!-- <dependency> <groupId>org.wave-protocol</groupId> <artifactId>whack</artifactId> 
-			<version>1.0.0</version> </dependency> -->
 		<dependency>
 			<groupId>xpp3</groupId>
 			<artifactId>xpp3</artifactId>
@@ -244,10 +242,6 @@
 					<mainClass>com.buddycloud.mediaserver.Main</mainClass>
 				</configuration>
 			</plugin>
-
-			<!-- Tomcat <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>tomcat-maven-plugin</artifactId> 
-				<configuration> <warFile>${project.build.directory}/${project.build.finalName}.war</warFile> 
-				</configuration> </plugin> -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
@@ -259,53 +253,36 @@
 						<goals>
 							<goal>single</goal>
 						</goals>
+						<configuration>
+							<archive>
+								<manifest>
+									<mainClass>com.buddycloud.mediaserver.Main</mainClass>
+								</manifest>
+							</archive>
+							<ignoreMissingDescriptor>true</ignoreMissingDescriptor>
+							<descriptorRefs>
+								<descriptorRef>${descriptor-ref}</descriptorRef>
+							</descriptorRefs>
+							<descriptors>
+								<descriptor>src/main/assembly/${assembly-config}</descriptor>
+							</descriptors>
+							<finalName>${project.artifactId}-${project.version}</finalName>
+							<appendAssemblyId>${assembly-append-assembly-id}</appendAssemblyId>
+						</configuration>
 					</execution>
-				</executions>
-				<configuration>
-					<archive>
-						<manifest>
-							<mainClass>com.buddycloud.mediaserver.Main</mainClass>
-						</manifest>
-					</archive>
-					<ignoreMissingDescriptor>true</ignoreMissingDescriptor>
-					<descriptorRefs>
-						<descriptorRef>${descriptor-ref}</descriptorRef>
-					</descriptorRefs>
-					<descriptors>
-						<descriptor>src/main/assembly/${assembly-config}</descriptor>
-					</descriptors>
-					<finalName>${project.artifactId}-${project.version}</finalName>
-					<appendAssemblyId>${assembly-append-assembly-id}</appendAssemblyId>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>com.github.goldin</groupId>
-				<artifactId>copy-maven-plugin</artifactId>
-				<version>0.2.5</version>
-				<executions>
 					<execution>
-						<id>create-archive</id>
+						<id>release-bundle</id>
 						<phase>package</phase>
 						<goals>
-							<goal>copy</goal>
+							<goal>single</goal>
 						</goals>
 						<configuration>
-							<failIfNotFound>false</failIfNotFound>
-							<resources>
-								<resource>
-									<targetPath>${project.build.directory}</targetPath>
-									<file>target/${project.build.finalName}.jar</file>
-									<destFileName>${project.artifactId}.jar</destFileName>
-								</resource>
-								<resource>
-									<targetPath>${project.build.directory}</targetPath>
-									<file>${project.build.directory}/${project.build.finalName}-${project.build.withDependencies}.jar</file>
-									<destFileName>${project.artifactId}-${project.build.withDependencies}.jar</destFileName>
-								</resource>
-							</resources>
+							<descriptor>src/main/assembly/release-bundle.xml</descriptor>
+							<appendAssemblyId>false</appendAssemblyId>
 						</configuration>
 					</execution>
 				</executions>
+
 			</plugin>
 			<!-- Jetty -->
 			<plugin>
@@ -335,12 +312,5 @@
 			<url>file://${basedir}/.m2</url>
 		</repository>
 	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>evgenyg</id>
-			<name>Evgeny Goldin repo</name>
-			<url>http://evgenyg.artifactoryonline.com/evgenyg/repo/com/github/goldin/</url>
-		</pluginRepository>
-	</pluginRepositories>
 </project>
 
