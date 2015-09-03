@@ -308,8 +308,9 @@
 			<url>http://xuggle.googlecode.com/svn/trunk/repo/share/java/</url>
 		</repository>
 		<repository>
-			<id>local</id>
-			<url>file://${basedir}/.m2</url>
+			<id>project.local</id>
+			<name>project</name>
+			<url>file:${project.basedir}/repo</url>
 		</repository>
 	</repositories>
 </project>
