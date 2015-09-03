@@ -35,7 +35,7 @@
 	</profiles>
 
 	<scm>
-		<connection>scm:git:git@github.surevine/buddycloud-media-server.git</connection>
+		<connection>scm:git:git@github.com:surevine/buddycloud-media-server.git</connection>
 		<developerConnection>scm:git:git@github.com:surevine/buddycloud-media-server.git</developerConnection>
 		<url>https://github.com/surevine/buddycloud-media-server</url>
 	</scm>
